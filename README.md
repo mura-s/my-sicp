@@ -1,4 +1,4 @@
-My Solutions for the exercises in SICP.
+My solutions for the exercises in SICP.
 
 # Setup for macOS
 Install gauche.
