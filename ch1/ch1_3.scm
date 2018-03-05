@@ -104,3 +104,21 @@
                  1.0))
 
 ;; (print (sqrt 2))
+
+;; 1.3.4
+(define (average-damp f)
+    (lambda (x) (average x (f x))))
+
+;; (print ((average-damp square) 10))
+
+(define (sqrt-ad x)
+    (fixed-point (average-damp (lambda (y) (/ x y)))
+                 1.0))
+
+;; (print (sqrt-ad 2))
+
+(define (cube-root x)
+    (fixed-point (average-damp (lambda (y) (/ x (square y))))
+                 1.0))
+
+;; (print (cube-root 2))
