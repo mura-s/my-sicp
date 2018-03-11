@@ -1,3 +1,4 @@
+;; 2.1.1
 (define (add-rat x y)
     (make-rat (+ (* (numer x) (denom y))
                  (* (numer y) (denom x)))
@@ -19,8 +20,6 @@
 (define (equal-rat? x y)
     (= (* (numer x) (denom y))
        (* (numer y) (denom x))))
-
-;; (define (make-rat n d) (cons n d))
 
 (define (gcd a b)
     (if (= b 0)
@@ -48,3 +47,5 @@
 (define one-third (make-rat 1 3))
 
 (print-rat (add-rat one-third one-third))
+
+;; 2.1.3
