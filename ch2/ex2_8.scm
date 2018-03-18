@@ -12,5 +12,7 @@
 
 (define i1 (make-interval 2 3))
 (define i2 (make-interval -3 -1))
+(define i3 (make-interval 1 5))
 
 (print (sub-interval i1 i2))
+(print (sub-interval i1 i3))
