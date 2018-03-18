@@ -40,3 +40,17 @@
         (cons (car list1) (append (cdr list1) list2))))
 
 ; (print (append squares odds))
+
+(define (map proc items)
+    (if (null? items)
+        nil
+        (cons (proc (car items))
+              (map proc (cdr items)))))
+
+; (print (map abs (list -10 2.5 -11.6 17)))
+
+(define (scale-list items factor)
+    (map (lambda (x) (* x factor))
+         items))
+
+; (print (scale-list (list 1 2 3 4) 10))
