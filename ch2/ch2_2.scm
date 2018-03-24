@@ -83,3 +83,98 @@
          tree))
 
 ; (print (scale-tree2 t1 2))
+
+;; 2.2.3
+(define (sum-odd-squares tree)
+    (cond ((null? tree) 0)
+          ((not (pair? tree))
+            (if (odd? tree) (square tree) 0))
+          (else (+ (sum-odd-squares (car tree))
+                   (sum-odd-squares (cdr tree))))))
+
+; (define t1 (list 1 (list 2 (list 3 4) 5) (list 6 7)))
+; (print (sum-odd-squares t1))
+
+(define (fib n)
+    (cond ((= n 0) 0)
+          ((= n 1) 1)
+          (else (+ (fib (- n 1)) (fib (- n 2))))))
+
+(define (even-fibs n)
+    (define (next k)
+        (if (> k n)
+            nil
+            (let ((f (fib k)))
+                (if (even? f)
+                    (cons f (next (+ k 1)))
+                    (next (+ k 1))))))
+    (next 0))
+
+; (print (even-fibs 5))
+
+(define (filter predicate sequence)
+    (cond ((null? sequence) nil)
+          ((predicate (car sequence))
+            (cons (car sequence) (filter predicate (cdr sequence))))
+          (else (filter predicate (cdr sequence)))))
+
+; (print (filter odd? (list 1 2 3 4 5)))
+
+(define (accumulate op initial sequence)
+    (if (null? sequence)
+        initial
+        (op (car sequence) (accumulate op initial (cdr sequence)))))
+
+; (print (accumulate + 0 (list 1 2 3 4 5)))
+; (print (accumulate * 1 (list 1 2 3 4 5)))
+; (print (accumulate cons nil (list 1 2 3 4 5)))
+
+(define (enumerate-interval low high)
+    (if (> low high)
+        nil
+        (cons low (enumerate-interval (+ low 1) high))))
+
+; (print (enumerate-interval 2 7))
+
+(define (enumerate-tree tree)
+    (cond ((null? tree) nil)
+          ((not (pair? tree)) (list tree))
+          (else (append (enumerate-tree (car tree))
+                        (enumerate-tree (cdr tree))))))
+
+; (print (enumerate-tree (list 1 (list 2 (list 3 4)) 5)))
+
+(define (sum-odd-squares2 tree)
+    (accumulate +
+                0
+                (map square
+                     (filter odd?
+                             (enumerate-tree tree)))))
+
+; (define t1 (list 1 (list 2 (list 3 4) 5) (list 6 7)))
+; (print (sum-odd-squares2 t1))
+
+(define (even-fibs2 n)
+    (accumulate cons
+                nil
+                (filter even?
+                        (map fib
+                             (enumerate-interval 0 n)))))
+; (print (even-fibs2 5))
+
+(define (list-fib-squares n)
+    (accumulate cons
+                nil
+                (map square
+                    (map fib
+                         (enumerate-interval 0 n)))))
+
+; (print (list-fib-squares 10))
+
+(define (product-of-squares-of-odd-elements sequence)
+    (accumulate *
+                1
+                (map square
+                     (filter odd? sequence))))
+
+; (print (product-of-squares-of-odd-elements (list 1 2 3 4 5)))
