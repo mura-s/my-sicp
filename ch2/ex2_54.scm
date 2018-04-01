@@ -1,0 +1,15 @@
+(use compat.sicp)
+
+(define (equal? l1 l2)
+    (define (symbol? l) (not (pair? l)))
+    (define (not-symbol? l) (pair? l))
+    (cond ((and (symbol? l1) (symbol? l2)) (eq? l1 l2))
+          ((and (not-symbol? l1) (not-symbol? l2))
+            (and (equal? (car l1) (car l2))
+                 (equal? (cdr l1) (cdr l2))))
+          (else false)))
+
+(print (equal? '() '()))
+(print (equal? '(a b c) '(a b c)))
+(print (equal? '(a x c) '(a b c)))
+(print (equal? '(a b c) '(a b)))
