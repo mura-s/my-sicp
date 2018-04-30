@@ -22,7 +22,7 @@
               ((null? (car coercions)) false)
               (else (all-coercions-not-null? (cdr coercions)))))
     (define (iter type-tags rest-args)
-        (if (null? rest-types)
+        (if (null? rest-args)
             (error "No method for these types" (list op type-tags))
             (let ((now-a (car rest-args))
                 (let ((now-t (type-tag now-a))
