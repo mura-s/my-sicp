@@ -22,3 +22,6 @@
     new))
 
 (print (cons 'a 'b))
+(newline)
+
+; Sharing and identity
