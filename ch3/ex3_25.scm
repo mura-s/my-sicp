@@ -1,0 +1,60 @@
+(use compat.sicp)
+
+(define (make-table)
+    (let ((local-table (list '*table*)))
+        (define (assoc key records)
+            (cond ((null? records) false)
+                  ((equal? key (caar records)) (car records))
+                  (else (assoc key (cdr records)))))
+                
+        (define (lookup keys)
+            (define (iter subkeys subtable)
+                (let ((record (assoc (car subkeys) subtable)))
+                    (cond ((not record)
+                            false)
+                          ((null? (cdr subkeys))
+                            (cdr record))
+                          (else
+                            (iter (cdr subkeys) (cdr record))))))
+            (if (null? keys)
+                false
+                (iter keys (cdr local-table))))
+
+        (define (insert! keys value)
+            (define (make-subtable-iter subkeys)
+                (if (null? subkeys)
+                    value
+                    (list (cons (car subkeys)
+                                (make-subtable-iter (cdr subkeys))))))
+            (define (iter subkeys table)
+                (let ((record (assoc (car subkeys) (cdr table))))
+                    (cond ((not record)
+                            (set-cdr! table
+                                      (append (make-subtable-iter subkeys) (cdr table))))
+                          ((null? (cdr subkeys))
+                            (set-cdr! record value))
+                          (else
+                            (iter (cdr subkeys) record)))))
+            (if (null? keys)
+                (error "null keys")
+                (begin (iter keys local-table)
+                       'ok)))
+
+        (define (dispatch m)
+            (cond ((eq? m 'lookup-proc) lookup)
+                  ((eq? m 'insert-proc!) insert!)
+                  (else (error "Unknown operation -- TABLE" m))))
+        dispatch))
+
+(define operation-table (make-table))
+(define get (operation-table 'lookup-proc))
+(define put (operation-table 'insert-proc!))
+
+(put (list 'hoge 'a) 1)
+(put (list 'hoge 'b) 2)
+(put (list 'foo 'c 'x) 3)
+(print (get (list 'hoge 'b)))
+(print (get (list 'hoge 'd)))
+(print (get (list 'foo 'c 'x)))
+(put (list 'foo 'c 'x) 5)
+(print (get (list 'foo 'c 'x)))
