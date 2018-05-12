@@ -47,3 +47,8 @@
     (add-action! a1 and-action-procedure)
     (add-action! a2 and-action-procedure)
     'ok)
+
+(define (logical-and s1 s2)
+    (if (and (= s1 1) (= s2 1))
+        1
+        0))
