@@ -62,28 +62,19 @@
                 (iter (stream-cdr s) (- n 1)))))
     (iter s n))
 
-(define (average x y)
-    (/ (+ x y) 2))
+(define (ln2-summands n)
+    (cons-stream (/ 1.0 n)
+                 (stream-map - (ln2-summands (+ n 1)))))
 
-(define (sqrt-improve guess x)
-    (average guess (/ x guess)))
+(define ln2-stream
+    (partial-sums (ln2-summands 1)))
 
-(define (sqrt-stream x)
-    (define guesses
-        (cons-stream 1.0
-                     (stream-map (lambda (guess)
-                                    (sqrt-improve guess x))
-                                 guesses)))
-    guesses)
+(define (euler-transform s)
+    (let ((s0 (stream-ref s 0))           ; Sn-1
+          (s1 (stream-ref s 1))           ; Sn
+          (s2 (stream-ref s 2)))          ; Sn+1
+        (cons-stream (- s2 (/ (square (- s2 s1))
+                              (+ s0 (* -2 s1) s2)))
+                    (euler-transform (stream-cdr s)))))
 
-(define (sqrt x tolerance)
-    (stream-limit (sqrt-stream x) tolerance))
-
-(define (stream-limit s tolerance)
-    (let ((s0 (stream-ref s 0))
-          (s1 (stream-ref s 1)))
-        (if (< (abs (- s1 s0)) tolerance)
-            s1
-            (stream-limit (stream-cdr s) tolerance))))
-
-(print (sqrt 2 0.001))
+(stream-head (euler-transform ln2-stream) 10)
