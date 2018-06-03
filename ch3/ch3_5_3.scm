@@ -108,3 +108,43 @@
                 (make-tableau transform s)))
 
 ; (stream-head (accelerated-sequence euler-transform pi-stream) 10)
+
+; Infinite streams of pairs
+(define (integers-starting-from n)
+    (cons-stream n (integers-starting-from (+ n 1))))
+
+(define integers (integers-starting-from 1))
+
+(define (smallest-divisor n)
+    (find-divisor n 2))
+
+(define (find-divisor n test-divisor)
+    (cond ((> (square test-divisor) n) n)
+          ((divides? test-divisor n) test-divisor)
+          (else (find-divisor n (+ test-divisor 1)))))
+
+(define (divides? a b)
+    (= (remainder b a) 0))
+
+(define (prime? n)
+    (= n (smallest-divisor n)))
+
+; (stream-filter (lambda (pair)
+;                 (prime? (+ (car pair) (cadr pair))))
+;                int-pairs)
+
+(define (interleave s1 s2)
+    (if (stream-null? s1)
+        s2
+        (cons-stream (stream-car s1)
+                     (interleave s2 (stream-cdr s1)))))
+
+(define (pairs s t)
+    (cons-stream
+        (list (stream-car s) (stream-car t))
+        (interleave
+            (stream-map (lambda (x) (list (stream-car s) x))
+                        (stream-cdr t))
+            (pairs (stream-cdr s) (stream-cdr t)))))
+
+; (stream-head (pairs integers integers) 10)
