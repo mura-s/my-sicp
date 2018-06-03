@@ -148,3 +148,15 @@
             (pairs (stream-cdr s) (stream-cdr t)))))
 
 ; (stream-head (pairs integers integers) 10)
+
+; Streams as signals
+(define (integral integrand initial-value dt)
+    (define int
+        (cons-stream initial-value
+                     (add-streams (scale-stream integrand dt)
+                                  int)))
+    int)
+
+(define ones (cons-stream 1 ones))
+
+; (stream-head (integral ones 0 0.1) 10)
