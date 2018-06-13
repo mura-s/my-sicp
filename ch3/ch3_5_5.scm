@@ -111,3 +111,15 @@
               (monte-carlo cesaro-stream 0 0)))
 
 ; (stream-head pi 1000)
+
+; A functional-programming view of time
+(define (make-simplified-withdraw balance)
+    (lambda (amount)
+        (set! balance (- balance amount))
+        balance))
+
+(define (stream-withdraw balance amount-stream)
+    (cons-stream
+        balance
+        (stream-withdraw (- balance (stream-car amount-stream))
+                         (stream-cdr amount-stream))))
