@@ -248,6 +248,8 @@
           (list '- -)
           (list '* *)
           (list '/ /)
+          (list 'list list)
+          (list 'abs abs)
           ))
 (define (primitive-procedure-names)
     (map car primitive-procedures))
