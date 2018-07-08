@@ -298,3 +298,25 @@
 ; (eval (cons '* (list 5 5)) user-initial-environment)
 
 ; 4.1.6
+; (define (f x)
+;     (define (even? n)
+;         (if (= n 0)
+;             true
+;             (odd? (- n 1))))
+;     (define (odd? n)
+;         (if (= n 0)
+;             false
+;             (even? (- n 1))))
+;     ⟨fの本体の残り⟩)
+
+; (lambda ⟨vars⟩
+;     (define u ⟨e1⟩)
+;     (define v ⟨e2⟩)
+;     ⟨e3⟩)
+
+; (lambda ⟨vars⟩
+;     (let ((u '*unassigned*)
+;           (v '*unassigned*))
+;       (set! u ⟨e1⟩)
+;       (set! v ⟨e2⟩)
+;       ⟨e3⟩))
