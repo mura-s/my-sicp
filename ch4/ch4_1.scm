@@ -161,7 +161,8 @@
 
 (define (false? x)
     (eq? x false))
-    (define (make-procedure parameters body env)
+
+(define (make-procedure parameters body env)
     (list 'procedure parameters body env))
   
 (define (compound-procedure? p)
@@ -295,3 +296,5 @@
 ; defaultのevalを使う必要がある
 ; (eval '(* 5 5) user-initial-environment)
 ; (eval (cons '* (list 5 5)) user-initial-environment)
+
+; 4.1.6
