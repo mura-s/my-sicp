@@ -305,11 +305,10 @@
         (display object)))
 
 ; Representing thunks
-; TODO:
-(define (force-it obj)
-    (if (thunk? obj)
-        (actual-value (thunk-exp obj) (thunk-env obj))
-        obj))
+; (define (force-it obj)
+;     (if (thunk? obj)
+;         (actual-value (thunk-exp obj) (thunk-env obj))
+;         obj))
 
 (define (delay-it exp env)
     (list 'thunk exp env))
@@ -318,6 +317,20 @@
     (tagged-list? obj 'thunk))
 (define (thunk-exp thunk) (cadr thunk))
 (define (thunk-env thunk) (caddr thunk))
+
+(define (evaluated-thunk? obj)
+    (tagged-list? obj 'evaluated-thunk))
+(define (thunk-value evaluated-thunk) (cadr evaluated-thunk))
+
+(define (force-it obj)
+    (cond ((thunk? obj)
+            (let ((result (actual-value (thunk-exp obj) (thunk-env obj))))
+                (set-car! obj 'evaluated-thunk)
+                (set-car! (cdr obj) result)  ; expをその値で置き換える
+                (set-cdr! (cdr obj) '())     ; 不要なenvを忘れる
+                result))
+          ((evaluated-thunk? obj) (thunk-value obj))
+          (else obj)))
 
 ; execution
 (define the-global-environment (setup-environment))
