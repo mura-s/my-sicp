@@ -246,6 +246,8 @@
           (list '* *)
           (list '/ /)
           (list '= =)
+          (list '<= <=)
+          (list '>= >=)
           (list 'list list)
           (list 'abs abs)
           ))
