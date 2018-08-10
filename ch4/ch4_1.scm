@@ -289,7 +289,7 @@
 
 (define the-global-environment (setup-environment))
 
-; (driver-loop)
+(driver-loop)
 ; 上の行をコメントインして`rlwrap gosh ch4/ch4_1.scm` で実行
 
 ; 4.1.5
