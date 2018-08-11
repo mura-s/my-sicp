@@ -46,6 +46,11 @@
           (else
             (error "Unknown expression type -- EVAL" exp))))
 
+; (define (eval-sequence exps env)
+;     (cond ((last-exp? exps) (eval (first-exp exps) env))
+;           (else (actual-value (first-exp exps) env)
+;                 (eval-sequence (rest-exps exps) env))))
+
 (define (eval-sequence exps env)
     (cond ((last-exp? exps) (eval (first-exp exps) env))
           (else
@@ -250,6 +255,8 @@
           (list '>= >=)
           (list 'list list)
           (list 'abs abs)
+          (list 'newline newline)
+          (list 'display display)
           ))
 (define (primitive-procedure-names)
     (map car primitive-procedures))
