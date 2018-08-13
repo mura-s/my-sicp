@@ -1,0 +1,47 @@
+(use compat.sicp)
+
+(define (accumulate op initial sequence)
+    (if (null? sequence)
+        initial
+        (op (car sequence) (accumulate op initial (cdr sequence)))))
+
+(define (flatmap proc seq)
+    (accumulate append nil (map proc seq)))
+
+(define (remove item sequence)
+    (filter (lambda (x) (not (= x item)))
+            sequence))
+
+(define (permutations s)
+    (if (null? s)
+        (list nil)
+        (flatmap (lambda (x)
+                    (map (lambda (p) (cons x p))
+                         (permutations (remove x s))))
+                 s)))
+
+(define (baker l) (car l))
+(define (cooper l) (cadr l))
+(define (fletcher l) (caddr l))
+(define (miller l) (cadddr l))
+(define (smith l) (car (cddddr l)))
+
+(define (multiple-dwelling)
+    (define (solve)
+        (filter (lambda (l) (not (= (abs (- (fletcher l) (cooper l))) 1)))
+            (filter (lambda (l) (not (= (abs (- (smith l) (fletcher l))) 1)))
+                (filter (lambda (l) (> (miller l) (cooper l)))
+                    (filter (lambda (l) (and (not (= (fletcher l) 5))
+                                            (not (= (fletcher l) 1))))
+                        (filter (lambda (l) (not (= (cooper l) 1)))
+                            (filter (lambda (l) (not (= (baker l) 5)))
+                                    (permutations (list 1 2 3 4 5)))))))))
+    (let ((lists (solve)))
+        (map (lambda (l) (list (list 'baker (baker l))
+                               (list 'cooper (cooper l))
+                               (list 'fletcher (fletcher l))
+                               (list 'miller (miller l))
+                               (list 'smith (smith l))))
+             lists)))
+
+(print (multiple-dwelling))
