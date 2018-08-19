@@ -32,6 +32,7 @@
         (list a b)))
 
 ; 4.3.2
+; Logic Puzzles
 (define (distinct? items)
     (cond ((null? items) true)
           ((null? (cdr items)) true)
@@ -57,3 +58,5 @@
               (list 'fletcher fletcher)
               (list 'miller miller)
               (list 'smith smith))))
+
+; Parsing natural language
