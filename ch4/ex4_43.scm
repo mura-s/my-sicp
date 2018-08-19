@@ -1,0 +1,22 @@
+(use compat.sicp)
+
+(define (solve-puzzle)
+    (define dauter car)
+    (define yacht cdr)
+    (let ((moore (cons 'mary 'lorna))
+          (downing (cons (amb 'lorna 'rosalind 'gabrielle) 'melissa))
+          (hall (cons (amb 'melissa 'gabrielle) 'rosalind))
+          (barnacle (cons 'melissa 'gabrielle))
+          (parker (cons (amb 'melissa 'rosalind 'gabrielle) 'mary)))
+        (let ((father-list (list moore downing hall barnacle parker)))
+            (require (distinct? (map dauter father-list)))
+            (require (eq? (yacht (car (filter (lambda (n) (eq? (dauter n) 'gabrielle))
+                                              father-list)))
+                          (dauter parker)))
+            (list (list 'moore moore)
+                  (list 'downing downing)
+                  (list 'hall hall)
+                  (list 'barnacle barnacle)
+                  (list 'parker parker)))))
+
+; lornaの父親はdowning
