@@ -1,0 +1,33 @@
+(use compat.sicp)
+
+(define (distinct? items)
+    (cond ((null? items) true)
+          ((null? (cdr items)) true)
+          ((member (car items) (cdr items)) false)
+          (else (distinct? (cdr items)))))
+
+(define (safe-pos? q q-list)
+    (if (null? q-list)
+        true
+        (if (= (abs (- q (car q-list))) (length q-list))
+            false
+            (safe-pos? q (cdr q-list)))))
+
+(define (queens)
+    (let ((q1 (amb 1 2 3 4 5 6 7 8))
+          (q2 (amb 1 2 3 4 5 6 7 8))
+          (q3 (amb 1 2 3 4 5 6 7 8))
+          (q4 (amb 1 2 3 4 5 6 7 8))
+          (q5 (amb 1 2 3 4 5 6 7 8))
+          (q6 (amb 1 2 3 4 5 6 7 8))
+          (q7 (amb 1 2 3 4 5 6 7 8))
+          (q8 (amb 1 2 3 4 5 6 7 8)))
+        (require (distinct? (list q1 q2 q3 q4 q5 q6 q7 q8)))
+        (requre (safe-pos? q2 (list q1)))
+        (requre (safe-pos? q3 (list q1 q2)))
+        (requre (safe-pos? q4 (list q1 q2 q3)))
+        (requre (safe-pos? q5 (list q1 q2 q3 q4)))
+        (requre (safe-pos? q6 (list q1 q2 q3 q4 q5 )))
+        (requre (safe-pos? q7 (list q1 q2 q3 q4 q5 q6)))
+        (requre (safe-pos? q8 (list q1 q2 q3 q4 q5 q6 q7)))
+        (list q1 q2 q3 q4 q5 q6 q7 q8)))
