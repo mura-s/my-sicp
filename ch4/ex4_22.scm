@@ -3,7 +3,7 @@
 (define (analyze exp)
     (cond ((self-evaluating? exp) (analyze-self-evaluating exp))
           ; 略
-          ((let? exp) (analyze (let-combination exp)))
+          ((let? exp) (analyze (let->combination exp)))
           ; 略
           (else (error "Unknown expression type -- ANALYZE" exp))))
 
