@@ -1,0 +1,32 @@
+(use compat.sicp)
+
+(define (analyze exp)
+    (cond ((self-evaluating? exp) (analyze-self-evaluating exp))
+          ((quoted? exp) (analyze-quoted exp))
+          ((variable? exp) (analyze-variable exp))
+          ((assignment? exp) (analyze-assignment exp))
+          ((definition? exp) (analyze-definition exp))
+          ((if? exp) (analyze-if exp))
+          ((let? exp) (analyze (let->combination exp)))
+          ((lambda? exp) (analyze-lambda exp))
+          ((begin? exp) (analyze-sequence (begin-actions exp)))
+          ((cond? exp) (analyze (cond->if exp)))
+          ((if-fail? exp) (analyze-if-fail exp))
+          ((amb? exp) (analyze-amb exp)) ; Added amb
+          ((application? exp) (analyze-application exp))
+          (else (error "Unknown expression type -- ANALYZE" exp))))
+
+(define (if-fail? exp)
+    (tagged-list? exp 'if-fail))
+(define (if-succeed exp) (cadr exp))
+(define (if-failed exp) (caddr exp))
+
+(define (analyze-if-fail exp)
+    (let ((sproc (analyze (if-succeed exp)))
+          (fproc (analyze (if-failed exp))))
+        (lambda (env succeed fail)
+            (sproc env
+                   (lambda (value fail2)
+                    (succeed value fail2))
+                   (lambda ()
+                    (fproc env succeed fail))))))
