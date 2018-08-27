@@ -444,7 +444,7 @@
                         (succeed 'ok
                                  (lambda ()    ; *2*
                                     (set-variable-value! var old-value env)
-                        (fail2)))))
+                                    (fail2)))))
                    fail))))
 
 ; Procedure applications
