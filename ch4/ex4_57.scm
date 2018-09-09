@@ -1,4 +1,4 @@
-(rule (replace person1 person2)
+(rule (replace ?person1 ?person2)
     (and (job ?person1 ?job1)
          (job ?person2 ?job2)
          (not (same ?person1 ?person2))
