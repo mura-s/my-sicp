@@ -8,3 +8,5 @@
 ; (assert! (rule (wheel ?person)
 ;             (and (supervisor ?middle-manager ?person)
 ;                  (supervisor ?x ?middle-manager))))
+
+; 4.4.3
