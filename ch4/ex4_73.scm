@@ -1,0 +1,4 @@
+; flatten-streamがdelayを陽に使うのはなぜか
+delayを使わないと無限ループになってしまうため。
+おそらく、simple-queryなどのframeのstreamの処理では問題ないが、
+dataのstreamなどでもstream-flatmapを使っているため問題になる。
