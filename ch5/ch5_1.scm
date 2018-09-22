@@ -131,3 +131,5 @@
 ;         (assign val (reg n))               ; 基底の場合: Fib(n)=n
 ;         (goto (reg continue))
 ;     fib-done)
+
+; 5.1.5
