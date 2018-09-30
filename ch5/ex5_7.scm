@@ -14,7 +14,7 @@
     after-fact
         (restore continue)
         (assign val (op *) (reg val) (reg b))
-        (goto (label continue))
+        (goto (reg continue))
     base-case
         (assign val (const 1))
         (goto (reg continue))
