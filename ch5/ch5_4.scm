@@ -672,14 +672,14 @@
         read-eval-print-loop
             (perform (op initialize-stack))
             (perform
-            (op prompt-for-input) (const ";;; EC-Eval input:"))
+                (op prompt-for-input) (const ";;; EC-Eval input:"))
             (assign exp (op read))
             (assign env (op get-global-environment))
             (assign continue (label print-result))
             (goto (label eval-dispatch))
         print-result
             (perform
-            (op announce-output) (const ";;; EC-Eval value:"))
+                (op announce-output) (const ";;; EC-Eval value:"))
             (perform (op user-print) (reg val))
             (goto (label read-eval-print-loop))
         ;; 5.4.1 積極制御評価器の中核
@@ -831,7 +831,7 @@
             (restore env)
             (restore unev)
             (perform
-            (op set-variable-value!) (reg unev) (reg val) (reg env))
+                (op set-variable-value!) (reg unev) (reg val) (reg env))
             (assign val (const ok))
             (goto (reg continue))
         ;; 定義
@@ -848,7 +848,7 @@
             (restore env)
             (restore unev)
             (perform
-            (op define-variable!) (reg unev) (reg val) (reg env))
+                (op define-variable!) (reg unev) (reg val) (reg env))
             (assign val (const ok))
             (goto (reg continue))
         ;; 5.4.4 評価の実行
