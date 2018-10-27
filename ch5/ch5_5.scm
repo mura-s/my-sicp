@@ -599,3 +599,25 @@
         (list-union (registers-modified seq1)
                     (registers-modified seq2))
         (append (statements seq1) (statements seq2))))
+
+; 5.5.5
+(define (parse-compiled-code lis)
+    (if (not (null? lis))
+        (begin
+            (if (pair? (caar lis))
+                (map (lambda (x)
+                            (if (symbol? x)
+                                (print x)
+                                (print "  " x)))
+                     (car lis))
+                (print (car lis)))
+            (parse-compiled-code (cdr lis)))))
+
+(parse-compiled-code
+    (compile
+        '(define (factorial n)
+            (if (= n 1)
+                1
+                (* (factorial (- n 1)) n)))
+        'val
+        'next))
