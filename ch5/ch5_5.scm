@@ -613,6 +613,7 @@
                 (print (car lis)))
             (parse-compiled-code (cdr lis)))))
 
+; 実行
 (parse-compiled-code
     (compile
         '(define (factorial n)
@@ -621,3 +622,6 @@
                 (* (factorial (- n 1)) n)))
         'val
         'next))
+
+; 5.5.6
+; 文面アドレスの話
